@@ -40,14 +40,14 @@ case "$1" in
     ;;
   status)
     # show current ISP status
-    w3m -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
-    grep -m1 -A2 "IP地址" | sed 's/│ *//g'
+    w3m -no-graph -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
+    grep -m1 -A2 "IP地址" | sed 's/| *//g'
     ;;
   list)
     # show the list of available ISPs
     echo "可选出口列表："
-    w3m -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
-    sed -n '/^│(/{s/│(.) //g; s/ *│.*│$//g; s/^[0-9]*/  & /g; p}; /建议/{s/[│ ]*//g; p}'
+    w3m -no-graph -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
+    sed -n '/^|(/{s/|(.) //g; s/ *|.*|$//g; s/^[0-9]*/  & /g; p}; /建议/{s/[| ]*//g; p}'
     ;;
   set)
     # set ISP
@@ -58,8 +58,8 @@ case "$1" in
     test -n "$3" && WLT_TIME="$3"
     WLT_ISP=$(($WLT_ISP - 1))
 
-    w3m -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=set&type=$WLT_ISP&exp=$WLT_TIME" |
-    grep -m1 -A2 "IP地址" | sed 's/│ *//g'
+    w3m -no-graph -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=set&type=$WLT_ISP&exp=$WLT_TIME" |
+    grep -m1 -A2 "IP地址" | sed 's/| *//g'
     ;;
   log)
     # show recent log
