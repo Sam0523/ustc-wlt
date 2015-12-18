@@ -63,9 +63,8 @@ case "$1" in
     ;;
   log)
     # show recent log
-    echo "最近日志："
     w3m -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
-    grep -B 1 -A 31 "消息"
+    sed -n '/最近日志/,/^$/{s/最近日志.*$/最近日志：/; /^$/,$d; p}'
     ;;
   dump)
     # dump the whole page (hidden feature for debug)
