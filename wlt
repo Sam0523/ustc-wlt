@@ -69,7 +69,7 @@ case "$1" in
     ;;
   dump)
     # dump the whole page (hidden feature for debug)
-    w3m -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login"
+    w3m -$* "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login"
     ;;
   *)
     # show usage
