@@ -41,7 +41,7 @@ case "$1" in
   status)
     # show current ISP status
     w3m -no-graph -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
-    grep -m1 -A2 "IP地址" | sed 's/| *//g'
+    grep -m1 -A2 "IP地址" | sed 's/| *//g; /^$/d'
     ;;
   list)
     # show the list of available ISPs
@@ -59,7 +59,7 @@ case "$1" in
     WLT_ISP=$(($WLT_ISP - 1))
 
     w3m -no-graph -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=set&type=$WLT_ISP&exp=$WLT_TIME" |
-    grep -m1 -A2 "IP地址" | sed 's/| *//g'
+    grep -m1 -A2 "信息" | sed 's/^ *//g; /^$/d; /+-*/,$d;'
     ;;
   log)
     # show recent log
