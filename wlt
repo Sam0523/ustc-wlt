@@ -16,8 +16,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# vim: shiftwidth=2
-
 # check requirement
 if ! command -v w3m > /dev/null; then
   echo -e >&2 "w3m is required but not installed.\nPlease install w3m."
@@ -31,19 +29,25 @@ WLT_ISP_DEFAULT="1"
 WLT_TIME_DEFAULT="0"
 
 # read and check configuration file
-if [ -r $HOME/.wlt.conf ]; then
-  . $HOME/.wlt.conf
+if [ -r /etc/wlt.conf ]; then
+  . /etc/wlt.conf
+elif [ -r $HOME/.config/wlt.conf ]; then
+  . $HOME/.config/wlt.conf
 else
-  echo 1>&2 "\
+  echo 1>&2 << EOF
 Configuration file not found or unreadable.
-Please set WLT_USERNAME and WLT_PASSWORD to your username and password in ~/.wlt.conf."
+Please set WLT_USERNAME and WLT_PASSWORD to your username and password
+in /etc/wlt.conf (system-wide) or ~/.config/wlt.conf (user-specific).
+EOF
   exit 1
 fi
 
 if [ -z "$WLT_USERNAME" -o -z "$WLT_PASSWORD" ]; then
-  echo 1>&2 "\
+  echo 1>&2 << EOF
 Configuration file is incorrect.
-Please set WLT_USERNAME and WLT_PASSWORD to your username and password in ~/.wlt.conf."
+Please set WLT_USERNAME and WLT_PASSWORD to your username and password
+in /etc/wlt.conf (system-wide) or ~/.config/wlt.conf (user-specific).
+EOF
   exit 1
 fi
 
@@ -52,7 +56,7 @@ case "$1" in
   info)
     # show profile infomation
     w3m -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
-    grep -m1 -A5 "用户"
+    grep -m1 -A5 "用户" | grep -v '^$'
     ;;
   status)
     # show current ISP status
@@ -103,3 +107,5 @@ Usage:
 	Show recent log"
     ;;
 esac
+
+# vim: shiftwidth=2
