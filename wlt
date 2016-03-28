@@ -34,7 +34,7 @@ if [ -r /etc/wlt.conf ]; then
 elif [ -r $HOME/.config/wlt.conf ]; then
   . $HOME/.config/wlt.conf
 else
-  echo 1>&2 << EOF
+  cat 1>&2 << EOF
 Configuration file not found or unreadable.
 Please set WLT_USERNAME and WLT_PASSWORD to your username and password
 in /etc/wlt.conf (system-wide) or ~/.config/wlt.conf (user-specific).
@@ -43,7 +43,7 @@ EOF
 fi
 
 if [ -z "$WLT_USERNAME" -o -z "$WLT_PASSWORD" ]; then
-  echo 1>&2 << EOF
+  cat 1>&2 << EOF
 Configuration file is incorrect.
 Please set WLT_USERNAME and WLT_PASSWORD to your username and password
 in /etc/wlt.conf (system-wide) or ~/.config/wlt.conf (user-specific).
@@ -93,7 +93,7 @@ case "$1" in
   *)
     # show usage
     programname=$(basename "$0")
-    echo "\
+    cat << EOF
 Usage:
     $programname info
 	Show profile infomation
@@ -104,7 +104,8 @@ Usage:
     $programname set [ISP [expire time]]
 	Set ISP
     $programname log
-	Show recent log"
+	Show recent log
+EOF
     ;;
 esac
 
