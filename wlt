@@ -29,10 +29,10 @@ WLT_ISP_DEFAULT="1"
 WLT_TIME_DEFAULT="0"
 
 # read and check configuration file
-if [ -r /etc/wlt.conf ]; then
-  . /etc/wlt.conf
-elif [ -r $HOME/.config/wlt.conf ]; then
+if [ -r $HOME/.config/wlt.conf ]; then
   . $HOME/.config/wlt.conf
+elif [ -r /etc/wlt.conf ]; then
+  . /etc/wlt.conf
 else
   cat 1>&2 << EOF
 Configuration file not found or unreadable.
