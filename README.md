@@ -1,5 +1,9 @@
 # ustc-wlt
-A non-interactive POSIX shell script for USTC wlt
+A non-interactive POSIX shell script for USTC wlt network portal login
+
+## Install
+
+[RPM packages](https://software.opensuse.org//download.html?project=home%3ASam0523&package=ustc-wlt)
 
 ## Depends
 
