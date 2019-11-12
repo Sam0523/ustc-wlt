@@ -18,7 +18,10 @@
 
 # check requirement
 if ! command -v w3m > /dev/null; then
-  echo -e >&2 "w3m is required but not installed.\nPlease install w3m."
+  cat >&2 << EOF
+w3m is required but not installed.
+Please install w3m.
+EOF
   if command -v command-not-found > /dev/null; then
     command-not-found w3m
   fi
@@ -29,8 +32,8 @@ WLT_ISP_DEFAULT="1"
 WLT_TIME_DEFAULT="0"
 
 # read and check configuration file
-if [ -r $HOME/.config/wlt.conf ]; then
-  . $HOME/.config/wlt.conf
+if [ -r "$HOME"/.config/wlt.conf ]; then
+  . "$HOME"/.config/wlt.conf
 elif [ -r /etc/wlt.conf ]; then
   . /etc/wlt.conf
 else
@@ -42,7 +45,7 @@ EOF
   exit 1
 fi
 
-if [ -z "$WLT_USERNAME" -o -z "$WLT_PASSWORD" ]; then
+if [ -z "$WLT_USERNAME" ] || [ -z "$WLT_PASSWORD" ]; then
   cat 1>&2 << EOF
 Configuration file is incorrect.
 Please set WLT_USERNAME and WLT_PASSWORD to your username and password
@@ -76,7 +79,7 @@ case "$1" in
     WLT_TIME="$WLT_TIME_DEFAULT"
     test -n "$2" && WLT_ISP="$2"
     test -n "$3" && WLT_TIME="$3"
-    WLT_ISP=$(($WLT_ISP - 1))
+    WLT_ISP=$((WLT_ISP - 1))
 
     w3m -no-graph -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=set&type=$WLT_ISP&exp=$WLT_TIME" |
     grep -m1 -A2 "信息" | sed 's/^ *//g; /^$/d; /+-*/,$d;'
