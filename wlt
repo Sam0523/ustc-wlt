@@ -64,7 +64,7 @@ case "$1" in
   status)
     # show current ISP status
     w3m -no-graph -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
-    sed -n '/IP地址[0-9\.]\+/,/^[ |]*$/{s/| *\([^ ]*\) *|/\1/; /^$/d; p}'
+    grep -m1 -A2 "IP地址" | sed 's/| *\([^ ]*\) *|/\1/; /^$/d'
     ;;
   list)
     # show the list of available ISPs
