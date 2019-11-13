@@ -59,18 +59,17 @@ case "$1" in
   info)
     # show profile infomation
     w3m -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
-    grep -m1 -A5 "用户" | grep -v '^$'
+    sed '/用户.*的权限/,/^$/!d; /^$/d'
     ;;
   status)
     # show current ISP status
     w3m -no-graph -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
-    grep -m1 -A2 "IP地址" | sed 's/| *//g; /^$/d'
+    sed -n '/IP地址[0-9\.]\+/,/^[ |]*$/{s/| *\([^ ]*\) *|/\1/; /^$/d; p}'
     ;;
   list)
     # show the list of available ISPs
-    echo "可选出口列表："
     w3m -no-graph -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
-    sed -n '/^|(/{s/|(.) //g; s/ *|.*|$//g; s/^[0-9]*/  & /g; p}; /建议/{s/[| ]*//g; p}'
+    sed -n '/出口选择/{s/.*/出口选择/; p}; /^|(/{s/|(.) //g; s/ *|.*|$//g; s/^[0-9]*/  & /g; p}; /建议/{s/[| ]*//g; p}; /没有.*权限/p'
     ;;
   set)
     # set ISP
