@@ -4,7 +4,7 @@
 
 function __fish_wlt_no_subcommand
 	for i in (commandline -cpo)
-		if contains -- $i info status list set log dump
+		if contains -- $i info status list set log login dump
 			return 1
 		end
 	end
@@ -20,11 +20,12 @@ function __fish_wlt_set
 	return 1
 end
 
-complete -f -c wlt -n '__fish_wlt_no_subcommand' -a info   -d "Show profile infomation"
+complete -f -c wlt -n '__fish_wlt_no_subcommand' -a info   -d "Show profile information"
 complete -f -c wlt -n '__fish_wlt_no_subcommand' -a status -d "Show current ISP status"
 complete -f -c wlt -n '__fish_wlt_no_subcommand' -a list   -d "Show the list of available ISPs"
 complete -f -c wlt -n '__fish_wlt_no_subcommand' -a set    -d "Set ISP"
 complete -f -c wlt -n '__fish_wlt_no_subcommand' -a log    -d "Show recent log"
+complete -f -c wlt -n '__fish_wlt_no_subcommand' -a login  -d "Browse interactively"
 complete -f -c wlt -n '__fish_wlt_no_subcommand' -a dump   -d "Dump the whole page"
 
 complete -f -c wlt -n '__fish_wlt_set' -a 1 -d '教育网出口(国际,仅用教育网访问,适合看文献)'

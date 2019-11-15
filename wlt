@@ -57,7 +57,7 @@ fi
 # Main
 case "$1" in
   info)
-    # show profile infomation
+    # show profile information
     w3m -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
     sed '/用户.*的权限/,/^$/!d; /^$/d'
     ;;
@@ -88,6 +88,10 @@ case "$1" in
     w3m -dump "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login" |
     sed -n '/最近日志/,/^$/{s/最近日志.*$/最近日志：/; /^$/,$d; p}'
     ;;
+  login)
+    # browse interactively
+    w3m "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login"
+    ;;
   dump)
     # dump the whole page (hidden feature for debug)
     w3m -$* "http://wlt.ustc.edu.cn/cgi-bin/ip?name=$WLT_USERNAME&password=$WLT_PASSWORD&cmd=login"
@@ -107,6 +111,8 @@ Usage:
 	Set ISP
     $programname log
 	Show recent log
+    $programname login
+    Browse interactively
 EOF
     ;;
 esac
